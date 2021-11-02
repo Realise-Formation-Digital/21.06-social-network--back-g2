@@ -18,9 +18,12 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'FirsName',
+        'LastName',
+        'Avatar',
+        'Pseudo',
+        'Password',
+        'Email',
     ];
 
     /**
@@ -29,7 +32,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password',
+        'Password',
         'remember_token',
     ];
 
@@ -39,6 +42,22 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'Email_verified_at' => 'datetime',
     ];
+    
+    //record link post
+    public function post()
+        {
+        return $this->hasMany(Post::class);
+        }
+    //record link like
+    public function like()
+        {
+        return $this->hasOne (Like::class);
+        }
+    //record link comment        
+    public function comment()
+        {
+        return $this->hasOne(Comment::class);
+        }
 }
