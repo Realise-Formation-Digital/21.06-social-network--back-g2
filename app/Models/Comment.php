@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
-    protected $fillable = ['Content'];
+    protected $fillable = ['content'];
 
     //record link user
     public function user()

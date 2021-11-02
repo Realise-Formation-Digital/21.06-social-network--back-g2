@@ -18,12 +18,11 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'FirsName',
-        'LastName',
-        'Avatar',
-        'Pseudo',
-        'Password',
-        'Email',
+        'first_name',
+        'last_name',
+        'avatar',
+        'pseudo',
+        'email',
     ];
 
     /**
@@ -34,15 +33,6 @@ class User extends Authenticatable
     protected $hidden = [
         'Password',
         'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'Email_verified_at' => 'datetime',
     ];
     
     //record link post
