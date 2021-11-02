@@ -14,16 +14,14 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $email = $this->faker->email;
         return [
-
             'first_name' => $this->faker->word,
             'last_name' => $this->faker->word,
             'avatar' => $this->faker->word,
             'pseudo' => $this->faker->word,
-            'password' => $this->faker->word,
-            'email' => $this->faker->word,
-
-            'email_verified_at' => null,
+            'password' => substr($this->faker->word, 0, 8),
+            'email' => $email
         ];
     }
 }

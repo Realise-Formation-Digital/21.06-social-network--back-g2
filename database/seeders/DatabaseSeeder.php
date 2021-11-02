@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
 
         //Insert comments
         $comments = Comment::factory()->count(10)->make()
-            ->each(function($comment) use ($users, $post) {
+            ->each(function($comment) use ($users, $posts) {
             $comment->user_id = $users->random()->id;
             $comment->post_id = $posts->random()->id;
             $comment->save();
