@@ -15,10 +15,10 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->char('Content', 50);    
-            $table->char('Title', 50);    
-            $table->string('Date', 19);
-            $table->string('Img', 260);
+            $table->char('content', 50);    
+            $table->char('title', 50);    
+            $table->string('date', 19);
+            $table->string('img', 260);
             $table->timestamps();
 
             $table->unsignedBigInteger('user_id');

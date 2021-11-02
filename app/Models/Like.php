@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Like extends Model
 {
     use HasFactory;
-    //protected $fillable = ['sujet', 'tarif', 'statut'];
+    
 
     //record link user
     public function user()
