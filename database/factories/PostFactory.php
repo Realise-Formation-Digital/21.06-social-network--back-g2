@@ -17,8 +17,8 @@ class PostFactory extends Factory
 
             'content' => $this->faker->word,
             'title' => $this->faker->word,
-            'date' => $this->faker->now(),
-            'img' => $this->faker->lorem()->image(),
+            'date' => $this->faker->date(),
+            'img' => $this->faker->imageUrl(),
 
         ];
     }
