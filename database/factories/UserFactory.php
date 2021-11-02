@@ -32,12 +32,14 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
+
                 'first_name' => $this->faker->word,
                 'last_name' => $this->faker->word,
                 'avatar' => $this->faker->word,
                 'pseudo' => $this->faker->word,
                 'password' => $this->faker->word,
                 'email' => $this->faker->word,
+
                 'email_verified_at' => null,
             ];
         });
