@@ -14,7 +14,7 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'Content' => $this->faker->setence(),
         ];
     }
 }

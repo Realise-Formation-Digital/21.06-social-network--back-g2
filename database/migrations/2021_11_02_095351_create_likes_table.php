@@ -17,15 +17,15 @@ class CreateLikesTable extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->unsignedBigInteger('ID_User');
-            $table->foreign('ID_User')
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
             ->references('id')
             ->on('users')
             ->onDelete('restrict')
             ->onUpdate('restrict');
 
-            $table->unsignedBigInteger('ID_Post');
-            $table->foreign('ID_Post')
+            $table->unsignedBigInteger('post_id');
+            $table->foreign('post_id')
             ->references('id')
             ->on('posts')
             ->onDelete('restrict')

@@ -21,8 +21,8 @@ class CreatePostsTable extends Migration
             $table->string('Img', 260);
             $table->timestamps();
 
-            $table->unsignedBigInteger('ID_User');
-            $table->foreign('ID_User')
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
             ->references('id')
             ->on('users')
             ->onDelete('restrict')
