@@ -19,11 +19,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         //Info users
-        $users = User::factory()->count(30)->create();
+        $users = User::factory()->count(90)->create();
 
       
         //Insert posts
-        $posts = Post::factory()->count(10)->make()
+        $posts = Post::factory()->count(70)->make()
             ->each(function($post) use ($users) {
             $post->user_id = $users->random()->id;
             $post->save();
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         
 
         //Insert likes
-        $likes = Like::factory()->count(10)->make()
+        $likes = Like::factory()->count(50)->make()
             ->each(function($like) use ($users, $posts) {
             $like->user_id = $users->random()->id;
             $like->post_id = $posts->random()->id;
