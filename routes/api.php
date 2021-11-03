@@ -2,7 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\LikeController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +20,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::resource('users', UserController::class);
+
+Route::resource('posts', PostController::class);
+
+Route::resource('likes', LikeController::class);
+
+Route::resource('comments', CommentController::class);
+
