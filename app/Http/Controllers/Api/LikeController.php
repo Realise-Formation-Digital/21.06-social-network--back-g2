@@ -18,7 +18,12 @@ class LikeController extends Controller
      */
     public function index()
     {
-        //
+        //return Like::all();
+        
+        $likes = Like::paginate(10);
+        
+        // Return collection of posts as a resource
+        return LikeResource::collection($likes);
     }
 
     /**
@@ -29,7 +34,8 @@ class LikeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $like = new Like;
+        $like->save();
     }
 
     /**
@@ -40,7 +46,11 @@ class LikeController extends Controller
      */
     public function show($id)
     {
-        //
+        // Get a single like
+        $like = Like::findOrFail($id);
+        
+        // Return a single like as a resource
+        return new LikeResource($like);
     }
 
     /**
@@ -63,6 +73,12 @@ class LikeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Get the like
+        $like = Like::findOrFail($id);
+        
+        //  Delete the like, return as confirmation
+        if ($like->delete()) {
+            return new LIkeResource($like);
+        }
     }
 }

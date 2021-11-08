@@ -17,7 +17,12 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        //return User::all();
+        
+        $comments = Comment::paginate(10);
+        
+        // Return collection of posts as a resource
+        return CommentResource::collection($comments);
     }
 
     /**
@@ -28,7 +33,9 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $comment = new Comment;
+        $comment->content = $request->content;
+        $comment->save();
     }
 
     /**
@@ -39,7 +46,11 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        //
+        //        // Get a comment post
+        $comment = Comment::findOrFail($id);
+        
+        // Return a single comnment as a resource
+        return new CommentResource($comment);    
     }
 
     /**
@@ -62,6 +73,12 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Get the comment
+        $comment = Comment::findOrFail($id);
+        
+        //  Delete the comment, return as confirmation
+        if ($comment->delete()) {
+            return new CommentResource($comment);
+        }
     }
 }
