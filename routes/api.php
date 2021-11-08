@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 /*Route::get('users', 'UserController@index');*/
 Route::resource('users', UserController::class);
+Route::patch('users/{id}', [UserController::class, 'update']);
 
 Route::resource('posts', PostController::class);
 

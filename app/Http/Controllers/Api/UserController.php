@@ -70,7 +70,32 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $user = User::find($id);
+            $user->avatar = $request->avatar ? $request->avatar : $user->avatar;
+            /*
+            if ($request->avatar) {
+                $user->avatar = $request->avatar;
+            } else {
+                $user->avatar = $user->avatar;
+            }
+            */
+            $user->pseudo = $request->pseudo ? $request->pseudo : $user->pseudo;
+            $user->password = $request->password ? $request->password : $user->password;
+            $user->save();
+            return response()->json([
+                'status_code' => 200,
+                'message' => "L'utilisateur a été modifié",
+                'data' => $user
+            ]);
+            // $user->update($request->all());
+        }
+        catch(Exception $e) {
+            return response()->json([
+                'status_code' => 400,
+                'message' => "Il y a eu une erreur lors de la modification de l'utilisateur"
+            ]);
+        }
     }
 
     /**
