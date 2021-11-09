@@ -46,11 +46,12 @@ class AuthenticationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    
     public function signin(Request $request)
     {
         $attr = $request->validate([
-            'pseudo' => 'required|string|pseudo|',
-            'email' => 'required|string|email|',
+            'pseudo' => 'required|string',
+            'email' => 'required|string|email',
             'password' => 'required|string|min:6'
         ]);
 
@@ -69,6 +70,7 @@ class AuthenticationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function signout()
     {
         auth()->user()->tokens()->delete();
@@ -84,6 +86,7 @@ class AuthenticationController extends Controller
      * @param string $body
      * @return \Illuminate\Http\Response
      */
+
     private function success($body) {
         return response()->json($body);
     }
@@ -95,6 +98,7 @@ class AuthenticationController extends Controller
      * @param string $status
      * @return \Illuminate\Http\Response
      */
+
     private function error($message, $status) {
         return response()->json([
             'status_code' => $status,

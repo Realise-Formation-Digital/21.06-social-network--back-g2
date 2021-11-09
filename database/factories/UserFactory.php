@@ -20,7 +20,7 @@ class UserFactory extends Factory
             'last_name' => $this->faker->word,
             'avatar' => $this->faker->imageUrl(),
             'pseudo' => $this->faker->word,
-            'password' => substr($this->faker->word, 0, 8),
+            'password' => 'test',
             'email' => $email
         ];
     }

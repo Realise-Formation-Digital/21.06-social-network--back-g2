@@ -34,6 +34,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         $user = new User;
@@ -73,6 +74,10 @@ class UserController extends Controller
         try {
             $user = User::find($id);
             $user->avatar = $request->avatar ? $request->avatar : $user->avatar;
+            $user->pseudo = $request->pseudo ? $request->pseudo : $user->pseudo;
+            $user->email = $request->email ? $request->email : $user->email;
+            $user->password = $request->password ? $request->password : $user->password;
+            
             /*
             if ($request->avatar) {
                 $user->avatar = $request->avatar;
@@ -80,8 +85,7 @@ class UserController extends Controller
                 $user->avatar = $user->avatar;
             }
             */
-            $user->pseudo = $request->pseudo ? $request->pseudo : $user->pseudo;
-            $user->password = $request->password ? $request->password : $user->password;
+
             $user->save();
             return response()->json([
                 'status_code' => 200,
