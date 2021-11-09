@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('likes', LikeController::class);
 
     Route::resource('comments', CommentController::class);
+    
     Route::post('/sign-out', [AuthenticationController::class, 'logout']);
 });
   
