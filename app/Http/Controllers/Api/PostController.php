@@ -18,7 +18,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::paginate(10);
+        
+        // Return collection of posts as a resource
+        return PostResource::collection($posts);
+ 
     }
 
     /**
@@ -29,9 +33,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = new Post;
+        $post->content = $request->content;
+        $post->title = $request->title;
+        $post->date = $request->date;
+        $post->img = $request->img;
+        $post->save();
     }
-
     /**
      * Display the specified resource.
      *
@@ -40,7 +48,11 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        // Get a single post
+        $post = Post::findOrFail($id);
+                
+        // Return a single post as a resource
+        return new PostResource($post);
     }
 
     /**
@@ -52,7 +64,26 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $post = Post::find($id);
+            $post->content = $request->content ? $request->content : $post->content;
+            $post->title = $request->title ? $request->title : $post->title;
+            $post->date = $request->date ? $request->date : $post->date;
+            $post->img = $request->img ? $request->img : $post->img;
+            $post->save();
+            return response()->json([
+                'status_code' => 200,
+                'message' => "Le post a été modifié",
+                'data' => $post
+            ]);
+            // $user->update($request->all());
+        }
+        catch(Exception $e) {
+            return response()->json([
+                'status_code' => 400,
+                'message' => "Il y a eu une erreur lors de la modification de le post"
+            ]);
+        }
     }
 
     /**
@@ -63,6 +94,12 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+     // Get the post
+     $post = Post::findOrFail($id);
+        
+     //  Delete the post, return as confirmation
+     if ($post->delete()) {
+         return new PostResource($post);
+     }
     }
 }
