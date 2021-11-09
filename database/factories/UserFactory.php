@@ -20,7 +20,7 @@ class UserFactory extends Factory
             'last_name' => $this->faker->word,
             'avatar' => $this->faker->imageUrl(),
             'pseudo' => $this->faker->word,
-            'password' => 'test',
+            'password' => bcrypt('test'),
             'email' => $email
         ];
     }
