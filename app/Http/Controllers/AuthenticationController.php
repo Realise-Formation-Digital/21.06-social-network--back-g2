@@ -19,7 +19,7 @@ class AuthenticationController extends Controller
         $attr = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'pseudo' => 'required|string|pseudo|unique:users,pseudo',
+            'pseudo' => 'required|string|unique:users,pseudo',
             'avatar' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string|min:6|confirmed'
@@ -50,7 +50,6 @@ class AuthenticationController extends Controller
     public function signin(Request $request)
     {
         $attr = $request->validate([
-            'pseudo' => 'required|string',
             'email' => 'required|string|email',
             'password' => 'required|string|min:6'
         ]);
