@@ -17,7 +17,12 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        //return User::all();
+        
+        $comments = Comment::paginate(10);
+        
+        // Return collection of posts as a resource
+        return CommentResource::collection($comments);
     }
 
     /**
@@ -26,10 +31,15 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+     
     public function store(Request $request)
     {
-        //
+        $comment = new Comment;
+        $comment->content = $request->content;
+        $comment->save();
     }
+
 
     /**
      * Display the specified resource.
@@ -39,7 +49,11 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        //
+        //        // Get a comment post
+        $comment = Comment::findOrFail($id);
+        
+        // Return a single comnment as a resource
+        return new CommentResource($comment);    
     }
 
     /**
@@ -51,7 +65,23 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $user = User::find($id);
+            $user->content = $request->content ? $request->content : $user->content;
+            $user->save();
+            return response()->json([
+                'status_code' => 200,
+                'message' => "Le content a été modifié",
+                'data' => $user
+            ]);
+            // $user->update($request->all());
+        }
+        catch(Exception $e) {
+            return response()->json([
+                'status_code' => 400,
+                'message' => "Il y a eu une erreur lors de la modification de l'utilisateur"
+            ]);
+        }
     }
 
     /**
@@ -62,6 +92,12 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Get the comment
+        $comment = Comment::findOrFail($id);
+        
+        //  Delete the comment, return as confirmation
+        if ($comment->delete()) {
+            return new CommentResource($comment);
+        }
     }
 }
