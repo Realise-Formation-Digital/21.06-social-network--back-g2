@@ -27,7 +27,10 @@ class PostController extends Controller
                 'message' => "Error authentication user",
             ]);
         }
-
+        return response()->json([
+            'status_code' => 200,
+            'data' => PostResource::collection($user->posts)
+        ]);
     }
 
     /**

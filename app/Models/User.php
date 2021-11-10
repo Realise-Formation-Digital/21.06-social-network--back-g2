@@ -38,18 +38,18 @@ class User extends Authenticatable
     ];
     
     //record link post
-    public function post()
+    public function posts()
         {
         return $this->hasMany(Post::class);
         }
     //record link like
-    public function like()
+    public function likes()
         {
-        return $this->hasOne (Like::class);
+        return $this->hasMany (Like::class);
         }
     //record link comment        
-    public function comment()
+    public function comments()
         {
-        return $this->hasOne(Comment::class);
+        return $this->hasMany(Comment::class);
         }
 }
