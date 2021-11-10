@@ -37,6 +37,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        //Add new User
         $user = new User;
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
@@ -73,6 +74,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            //search user id and verify modification 
             $user = User::find($id);
             $user->avatar = $request->avatar ? $request->avatar : $user->avatar;
             $user->pseudo = $request->pseudo ? $request->pseudo : $user->pseudo;

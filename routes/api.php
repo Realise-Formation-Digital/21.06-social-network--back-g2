@@ -17,18 +17,11 @@ use App\Http\Controllers\AuthenticationController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-/*
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
 
 // Register new user
 Route::post('/create-account', [AuthenticationController::class, 'createAccount']);
 // Login user
 Route::post('/signin', [AuthenticationController::class, 'signin']);
-
-/*Get tous les posts de un user_id
-Route::get('/post', [PostController::class, 'post']);*/
 
 // Add sanctum middleware to protect our routes.
 Route::middleware('auth:sanctum')->group(function () {
@@ -51,17 +44,3 @@ Route::middleware('auth:sanctum')->group(function () {
       'message' => 'error'
     ]);
   })->name('login');
-
-
-//Route that calls the update function to modify a user_id
-/*
-Route::patch('users/{id}', [UserController::class, 'update']);
-
-Route::resource('users', UserController::class);
-
-Route::resource('posts', PostController::class);
-
-Route::resource('likes', LikeController::class);
-
-Route::resource('comments', CommentController::class);
-*/
