@@ -18,18 +18,18 @@ class Post extends Model
 
     
     //record link comment
-    public function comment()
+    public function comments()
         {
         return $this->hasMany(Comment::class);
         }
     //record link like
-    public function like()
+    public function likes()
         {
         return $this->hasMany (Like::class);
         }
     //record link user        
     public function user()
         {
-        return $this->belongTo(User::class);
+        return $this->belongsTo(User::class);
         }
 }
