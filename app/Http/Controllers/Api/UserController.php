@@ -57,6 +57,7 @@ class UserController extends Controller
     {
         // Get a single user
         $user = User::findOrFail($id);
+        $user->posts;
         
         // Return a single user as a resource
         return new UserResource($user);

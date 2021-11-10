@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Like;
 use App\Models\Comment;
+use App\Http\Resources\Post as PostResource;
 
 class PostController extends Controller
 {
@@ -16,13 +18,16 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        $posts = Post::paginate(10);
-        
-        // Return collection of posts as a resource
-        return PostResource::collection($posts);
- 
+        $user = Auth::user();
+        if (!$user) {
+            return response()->json([
+                'message' => "Error authentication user",
+            ]);
+        }
+
     }
 
     /**
@@ -33,11 +38,13 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
         $post = new Post;
         $post->content = $request->content;
         $post->title = $request->title;
         $post->date = $request->date;
         $post->img = $request->img;
+        $post->user_id = $user->id;
         $post->save();
     }
     /**
@@ -47,6 +54,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
+
     {
         // Get a single post
         $post = Post::findOrFail($id);
@@ -54,6 +62,7 @@ class PostController extends Controller
         // Return a single post as a resource
         return new PostResource($post);
     }
+    
 
     /**
      * Update the specified resource in storage.
