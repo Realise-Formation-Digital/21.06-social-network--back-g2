@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Http\Resources\Comment as CommentResource;
 
 class CommentController extends Controller
 {
@@ -66,9 +67,9 @@ class CommentController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $user = User::find($id);
-            $user->content = $request->content ? $request->content : $user->content;
-            $user->save();
+            $comment = Comment::find($id);
+            $comment->content = $request->content;
+            $comment->save();
             return response()->json([
                 'status_code' => 200,
                 'message' => "Le content a été modifié",

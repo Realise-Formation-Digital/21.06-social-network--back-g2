@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -7,25 +8,31 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\Like;
-use App\Models\Comment;
+use App\Models\Abbonement;
+use App\Services\UserService;
 use App\Http\Resources\User as UserResource;
 
 class UserController extends Controller
 {
+    private $userService;
+
     /**
      * Display a listing of the resource.
      */
      /* @return \Illuminate\Http\Response
+
      */
+public function __construct(UserService $userService) {
+    $this->userService = $userService;
+}
+
+
     public function index()
     {
         //return User::all();
-        
-        $users = User::paginate(10);
-        
-        // Return collection of posts as a resource
+        $users = $this->userService->allUser();
         return UserResource::collection($users);
- 
+
     }
 
     /**
@@ -56,12 +63,16 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        $user = $this->userService->getUser($id);
+        return new UserResource($user);
         // Get a single user
+        /*
         $user = User::findOrFail($id);
         $user->posts;
+        */
         
         // Return a single user as a resource
-        return new UserResource($user);
+        
     }
 
     /**
