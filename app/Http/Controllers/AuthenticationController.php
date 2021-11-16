@@ -13,7 +13,16 @@ class AuthenticationController extends Controller
      * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+   */
+
+    /**
+     * Use this method to signin users.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
+    
+
     public function createAccount(Request $request)
     {
         $attr = $request->validate([
@@ -22,7 +31,7 @@ class AuthenticationController extends Controller
             'pseudo' => 'required|string|unique:users,pseudo',
             'avatar' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed'
+            'password' => 'required|string|min:6'
         ]);
 
         $user = User::create([
@@ -39,14 +48,6 @@ class AuthenticationController extends Controller
             'token' => $user->createToken('tokens')->plainTextToken
         ]);
     }
-
-    /**
-     * Use this method to signin users.
-     * 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    
     public function signin(Request $request)
     {
         $attr = $request->validate([

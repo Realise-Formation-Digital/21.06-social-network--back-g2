@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Post;
-use App\Models\Like;
-use App\Http\Resources\Like as CommentResource;
+use App\Models\Abbonement;
 
-class LikeController extends Controller
+
+class AbbonementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +17,7 @@ class LikeController extends Controller
      */
     public function index()
     {
-        //return Like::all();
-        
-        $likes = Like::paginate(10);
-        
-        // Return collection of posts as a resource
-        return LikeResource::collection($likes);
+        //
     }
 
     /**
@@ -34,8 +28,7 @@ class LikeController extends Controller
      */
     public function store(Request $request)
     {
-        $like = new Like;
-        $like->save();
+        //
     }
 
     /**
@@ -46,11 +39,7 @@ class LikeController extends Controller
      */
     public function show($id)
     {
-        // Get a single like
-        $like = Like::findOrFail($id);
-        
-        // Return a single like as a resource
-        return new LikeResource($like);
+        //
     }
 
     /**
@@ -73,12 +62,6 @@ class LikeController extends Controller
      */
     public function destroy($id)
     {
-        // Get the like
-        $like = Like::findOrFail($id);
-        
-        //  Delete the like, return as confirmation
-        if ($like->delete()) {
-            return new LikeResource($like);
-        }
+        //
     }
 }

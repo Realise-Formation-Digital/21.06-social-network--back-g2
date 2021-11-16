@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\LikeController;
+use App\Http\Controllers\Api\AbbonementController;
 use App\Http\Controllers\AuthenticationController;
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,7 @@ Route::post('/create-account', [AuthenticationController::class, 'createAccount'
 Route::post('/signin', [AuthenticationController::class, 'signin']);
 
 // Add sanctum middleware to protect our routes.
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('users', UserController::class);
 
@@ -34,8 +35,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('comments', CommentController::class);
 
+    Route::resource('abbonements',AbbonementController::class);
+
     Route::post('/sign-out', [AuthenticationController::class, 'logout']);
-});
+// });
   
 // Add login route because Laravel needs it (Or add Accept: application/json to all requests),
   Route::get('/login', function () {

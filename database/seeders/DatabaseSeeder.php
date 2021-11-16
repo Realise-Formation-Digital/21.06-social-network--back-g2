@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\Like;
 use App\Models\Comment;
+use App\Models\Abbonement;
 
 
 class DatabaseSeeder extends Seeder
@@ -23,7 +24,7 @@ class DatabaseSeeder extends Seeder
 
       
         //Insert posts
-        $posts = Post::factory()->count(70)->make()
+        $posts = Post::factory()->count(100)->make()
             ->each(function($post) use ($users) {
             $post->user_id = $users->random()->id;
             $post->save();
@@ -45,6 +46,13 @@ class DatabaseSeeder extends Seeder
             $comment->user_id = $users->random()->id;
             $comment->post_id = $posts->random()->id;
             $comment->save();
+        });
+
+        //Insert abbonements
+        $abbonements = Abbonement::factory()->count(20)->make()
+            ->each(function($abbonement) use ($users) {
+            $abbonement->user_id = $users->random()->id;
+            $abbonement->save();
         });
     }
 }

@@ -52,4 +52,9 @@ class User extends Authenticatable
         {
         return $this->hasMany(Comment::class);
         }
+    //record link abbonements
+    public function abbonements()
+        {
+        return $this->hasOne(Abbonement::class);
+        }
 }
