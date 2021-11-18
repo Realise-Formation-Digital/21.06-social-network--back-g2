@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use \Spatie\Permission\Exceptions\UnauthorizedException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -34,8 +35,27 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (Throwable $e) {
+            if ($e instanceof ValidateException) {
+                return response()->json([
+                    'status_code' => 400,
+                    'message' => json_decode($e->getMessage())
+                ]);
+//                return $this->failure(json_decode($e->getMessage()), $e->getCode() ?: 400);
+            }
+            if ($e instanceof UnauthorizedException) {
+                return response()->json([
+                    'status_code' => 400,
+                    'message' => "Il y a eu une erreur de permission"
+                ]);
+//                return $this->failure('You do not have required authorization.', 403);
+            }
+            return response()->json([
+                'status_code' => 500,
+                'message' => "There was an error in the application"
+            ]);
+//        return $this->failure('There was an error in the application.', 500);
+            // $this->failure($e->getTraceAsString(), $e->getCode() && is_numeric($e->getCode()) && $this->is_valid_http_status($e->getCode()) ? $e->getCode() : 400);
         });
     }
 }

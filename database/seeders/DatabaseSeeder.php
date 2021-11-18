@@ -8,6 +8,8 @@ use App\Models\Post;
 use App\Models\Like;
 use App\Models\Comment;
 use App\Models\Abbonement;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 
 class DatabaseSeeder extends Seeder
@@ -19,9 +21,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Create admin role
+        $admin_role = Role::create(['name' => 'admin']);
+
+        // Create permissions.
+        $permission_create_post = Permission::create(['name' => 'create post']);
+
+        // Give permission to role admin
+        $admin_role->givePermissionTo($permission_create_post);
+
         //Info users
         $users = User::factory()->count(90)->create();
 
+        // Give admin role to the user.
+        $users[0]->assignRole($admin_role);
       
         //Insert posts
         $posts = Post::factory()->count(100)->make()

@@ -106,4 +106,29 @@ class AuthenticationController extends Controller
         ]);
     }
 
+
+
+    //Validation fields posts 
+    /**
+     *
+     * @param  bool $update
+     * @return array
+     */
+    public function validateUser($update = false)
+    {
+      // Validating fields.
+      $validatorRules = [
+      'title' => 'required|string|max:128',
+      'content' => 'required|string|max:128',
+      'img' => 'required|string|max:128',
+      'date' => 'required|date',
+      ];
+  
+      // Check id when account is updated.
+      if ($update) {
+        $validatorRules['id'] = 'required|integer|digits_between:1,20';
+      }
+      return $validatorRules;
+    }
+
 }

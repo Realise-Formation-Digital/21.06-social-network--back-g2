@@ -68,7 +68,7 @@ class UserService {
             ]);
             // $user->update($request->all());
         }
-        catch(Exception $e) {
+        catch(\Exception $e) {
             return response()->json([
                 'status_code' => 400,
                 'message' => "Il y a eu une erreur lors de la modification de l'utilisateur"

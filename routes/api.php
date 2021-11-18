@@ -25,11 +25,11 @@ Route::post('/create-account', [AuthenticationController::class, 'createAccount'
 Route::post('/signin', [AuthenticationController::class, 'signin']);
 
 // Add sanctum middleware to protect our routes.
-// Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
 
     Route::resource('users', UserController::class);
 
-    Route::resource('posts', PostController::class);
+    Route::resource('posts', PostController::class)->except('store');
 
     Route::resource('likes', LikeController::class);
 
@@ -38,8 +38,16 @@ Route::post('/signin', [AuthenticationController::class, 'signin']);
     Route::resource('abbonements',AbbonementController::class);
 
     Route::post('/sign-out', [AuthenticationController::class, 'logout']);
-// });
-  
+
+});
+
+
+$middlewareCreatePost = ['auth:sanctum', 'permission:create post'];
+Route::middleware($middlewareCreatePost)->group(function () {
+    Route::post('posts', [PostController::class, "store"]);
+});
+
+
 // Add login route because Laravel needs it (Or add Accept: application/json to all requests),
   Route::get('/login', function () {
     return response()->json([
