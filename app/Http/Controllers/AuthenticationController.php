@@ -1,27 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Http\Controllers\Controller;
 
 class AuthenticationController extends Controller
 {
     /**
      * This method adds new users.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
    */
 
     /**
      * Use this method to signin users.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    
+
 
     public function createAccount(Request $request)
     {
@@ -66,9 +67,10 @@ class AuthenticationController extends Controller
 
     /**
      * This method signs out users by removing tokens.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     *
      */
 
     public function signout()
@@ -82,7 +84,7 @@ class AuthenticationController extends Controller
 
     /**
      * Return a formated JSON response.
-     * 
+     *
      * @param string $body
      * @return \Illuminate\Http\Response
      */
@@ -93,7 +95,7 @@ class AuthenticationController extends Controller
 
     /**
      * Return a formated JSON response.
-     * 
+     *
      * @param string $message
      * @param string $status
      * @return \Illuminate\Http\Response
@@ -108,7 +110,7 @@ class AuthenticationController extends Controller
 
 
 
-    //Validation fields posts 
+    //Validation fields posts
     /**
      *
      * @param  bool $update
@@ -123,7 +125,7 @@ class AuthenticationController extends Controller
       'img' => 'required|string|max:128',
       'date' => 'required|date',
       ];
-  
+
       // Check id when account is updated.
       if ($update) {
         $validatorRules['id'] = 'required|integer|digits_between:1,20';
