@@ -1,11 +1,10 @@
 <?php
 namespace App\Services;
 
-use App\Transaction;
+
 use App\Models\Post;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Api\PostController;
+use App\Http\Resources\Post as PostResource;
 use App\Services\ValidatorService;
 use Illuminate\Http\Request;
 
@@ -57,7 +56,7 @@ class PostService {
 
     }
 
-    public function findPost () {
+    public function findPost ($id) {
 
         // Get a single post
         $post = Post::findOrFail($id);
@@ -66,7 +65,7 @@ class PostService {
         return new PostResource($post);
     }
 
-    public function modifPost () {
+    public function modifPost (Request $request,$id ) {
 
         try {
             $post = Post::find($id);
@@ -83,7 +82,7 @@ class PostService {
             ]);
             // $user->update($request->all());
         }
-        catch(Exception $e) {
+        catch(\Exception $e) {
             return response()->json([
                 'status_code' => 400,
                 'message' => "Il y a eu une erreur lors de la modification de le post"
@@ -91,7 +90,7 @@ class PostService {
         }
     }
 
-    public function delPost () {
+    public function delPost ($id) {
 
         // Get the post
         $post = Post::findOrFail($id);

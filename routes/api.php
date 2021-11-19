@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\AbbonementController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\Api\ContactController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -55,3 +56,9 @@ Route::middleware($middlewareCreatePost)->group(function () {
       'message' => 'error'
     ]);
   })->name('login');
+
+//route email
+Route::get('/test-contact', [ContactController::class, "contactPost"]);
+Route::post('/test-contact',[ContactController::class, "contactPost"] );
+
+

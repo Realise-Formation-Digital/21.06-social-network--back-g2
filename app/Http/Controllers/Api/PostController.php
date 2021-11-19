@@ -3,12 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Post;
-use App\Models\Like;
-use App\Models\Comment;
 use App\Services\PostService;
 use App\Http\Resources\Post as PostResource;
 
@@ -19,7 +14,7 @@ class PostController extends Controller
     public function __construct(PostService $postService) {
         $this->postService = $postService;
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -29,7 +24,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = $this->postService->getPost();
-        return new PostResource($post);
+        return new PostResource($posts);
     }
 
     /**
@@ -51,10 +46,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $posts = $this->postService->findPost();
-        return new PostResource($post);
+        $posts = $this->postService->findPost($id);
+        return new PostResource($posts);
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -63,15 +58,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-       
-        $posts = $this->postService->modifPost();
-        return new PostResource($post);
+
+        $posts = $this->postService->modifPost ( $request,$id );
+        return new PostResource($posts);
 
     }
 
-    /**
+    /*
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -79,7 +74,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $posts = $this->postService->delPost();
-        return new PostResource($post);
+        $posts = $this->postService->delPost($id);
+        return new PostResource($posts);
     }
 }
