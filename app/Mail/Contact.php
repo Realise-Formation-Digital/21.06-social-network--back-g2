@@ -15,16 +15,16 @@ class Contact extends Mailable
      * Elements de contact
      * @var array
      */
-    public $contact;
+    public $body;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($contact)
+    public function __construct($body)
     {
-        $this->contact = $contact;
+        $this->body = $body;
     }
 
     /**
@@ -35,7 +35,8 @@ class Contact extends Mailable
     public function build()
     {
         return $this->from('sara.polese.9092@gmail.com')
-            ->subject('Mail from ItSolutionStuff.com')
-            ->view('emails.contact');
+            ->subject('Mail from Sara Polese')
+            ->view('emails.contact', ['body' => $this->body]);
+            //->view('emails.contact');
     }
 }

@@ -45,8 +45,10 @@ public function __construct(UserService $userService) {
     public function store(Request $request)
     {
         //Add new User
+        /*
         $users = $this->userService->addUser();
         return new UserResource($user);
+        */
     }
 
     /**
@@ -64,9 +66,9 @@ public function __construct(UserService $userService) {
         $user = User::findOrFail($id);
         $user->posts;
         */
-        
+
         // Return a single user as a resource
-        
+
     }
 
     /**
@@ -78,9 +80,10 @@ public function __construct(UserService $userService) {
      */
     public function update(Request $request, $id)
     {
-        
+        /*
         $user = $this->userService->modifUser($id);
         return new UserResource($user);
+        */
     }
 
     /**
@@ -90,7 +93,7 @@ public function __construct(UserService $userService) {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {     
+    {
         $user = $this->userService->delUser($id);
         return new UserResource($user);
     }
