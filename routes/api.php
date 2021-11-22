@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/sign-out', [AuthenticationController::class, 'logout']);
 
+    Route::post('/test-contact',[ContactController::class, "contactPost"] );
 });
 
 
@@ -58,7 +59,6 @@ Route::middleware($middlewareCreatePost)->group(function () {
   })->name('login');
 
 //route email
-Route::get('/test-contact', [ContactController::class, "contactPost"]);
-Route::post('/test-contact',[ContactController::class, "contactPost"] );
+//Route::get('/test-contact', [ContactController::class, "contactPost"]);
 
 

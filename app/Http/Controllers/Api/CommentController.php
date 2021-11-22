@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Post;
 use App\Models\Comment;
 use App\Http\Resources\Comment as CommentResource;
+use Exception;
 
 class CommentController extends Controller
 {
@@ -19,9 +20,9 @@ class CommentController extends Controller
     public function index()
     {
         //return User::all();
-        
+
         $comments = Comment::paginate(10);
-        
+
         // Return collection of posts as a resource
         return CommentResource::collection($comments);
     }
@@ -33,7 +34,7 @@ class CommentController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     
+
     public function store(Request $request)
     {
         $comment = new Comment;
@@ -52,9 +53,9 @@ class CommentController extends Controller
     {
         //        // Get a comment post
         $comment = Comment::findOrFail($id);
-        
+
         // Return a single comnment as a resource
-        return new CommentResource($comment);    
+        return new CommentResource($comment);
     }
 
     /**
@@ -73,7 +74,7 @@ class CommentController extends Controller
             return response()->json([
                 'status_code' => 200,
                 'message' => "Le content a été modifié",
-                'data' => $user
+                'data' => ""
             ]);
             // $user->update($request->all());
         }
@@ -95,7 +96,7 @@ class CommentController extends Controller
     {
         // Get the comment
         $comment = Comment::findOrFail($id);
-        
+
         //  Delete the comment, return as confirmation
         if ($comment->delete()) {
             return new CommentResource($comment);
