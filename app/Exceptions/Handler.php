@@ -50,6 +50,13 @@ class Handler extends ExceptionHandler
                 ]);
 //                return $this->failure('You do not have required authorization.', 403);
             }
+            if ($e instanceof ApiException) {
+                return response()->json([
+                    'status_code' => 400,
+                    'message' => $e->getMessage()
+                ]);
+//                return $this->failure('You do not have required authorization.', 403);
+            }
             return response()->json([
                 'status_code' => 500,
                 'message' => "There was an error in the application"

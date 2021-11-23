@@ -11,6 +11,7 @@ use App\Models\Like;
 use App\Models\Abbonement;
 use App\Services\UserService;
 use App\Http\Resources\User as UserResource;
+use Exception;
 
 class UserController extends Controller
 {
@@ -44,11 +45,13 @@ public function __construct(UserService $userService) {
 
     public function store(Request $request)
     {
-        //Add new User
-        /*
-        $users = $this->userService->addUser();
-        return new UserResource($user);
-        */
+        try {
+            //Add new User
+            $user = $this->userService->addUser($request);
+            return new UserResource($user);
+        } catch(Exception $e) {
+            throw $e;
+        }
     }
 
     /**
@@ -61,14 +64,6 @@ public function __construct(UserService $userService) {
     {
         $user = $this->userService->getUser($id);
         return new UserResource($user);
-        // Get a single user
-        /*
-        $user = User::findOrFail($id);
-        $user->posts;
-        */
-
-        // Return a single user as a resource
-
     }
 
     /**
@@ -80,10 +75,8 @@ public function __construct(UserService $userService) {
      */
     public function update(Request $request, $id)
     {
-        /*
-        $user = $this->userService->modifUser($id);
+        $user = $this->userService->modifUser($request, $id);
         return new UserResource($user);
-        */
     }
 
     /**
