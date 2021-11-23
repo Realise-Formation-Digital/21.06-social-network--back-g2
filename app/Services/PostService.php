@@ -1,11 +1,12 @@
 <?php
 namespace App\Services;
 
-
+use App\Exceptions\ApiException;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Post as PostResource;
 use App\Services\ValidatorService;
+use Exception;
 use Illuminate\Http\Request;
 
 class PostService {
@@ -16,20 +17,16 @@ class PostService {
         $this->validatorService = $validatorService;
     }
 
-    public function getPost() {
-
-        $user = Auth::user();
-        if (!$user) {
-            return response()->json([
-                'message' => "Error authentication user",
-            ]);
+    public function getPosts() {
+        try {
+            $user = Auth::user();
+            return $user->posts;
         }
-        return response()->json([
-            'status_code' => 200,
-            'data' => PostResource::collection($user->posts)
-        ]);
-
+        catch(\Exception $e) {
+            throw($e);
+        }
     }
+
 
     public function creatPost(Request $request) {
 
@@ -37,17 +34,19 @@ class PostService {
             // Validating fields.
             $this->validatorService->validateFields($request->all(), $this->validatePost());
 
-            // Create post.
+            // Get authenticated user.
             $user = Auth::user();
+
+            // Create post.
             $post = new Post;
-            $post->content = $request->content;
-            $post->title = $request->title;
-            $post->date = $request->date;
-            $post->img = $request->img;
+            $post->content = $request->input('content');
+            $post->title = $request->input('title');
+            $post->date = $request->input('date');
+            $post->img = $request->input('img');
             $post->user_id = $user->id;
             $post->save();
 
-                // Return the new post
+            // Return the new post
             return $post;
         }
         catch(\Exception $e) {
@@ -58,16 +57,26 @@ class PostService {
 
     public function findPost ($id) {
 
-        // Get a single post
-        $post = Post::findOrFail($id);
+        try {
+            // Get a single post
+            $post = Post::findOrFail($id);
 
-        // Return a single post as a resource
-        return new PostResource($post);
+            // Return a single post as a resource
+            return $post;
+        }
+
+        catch(\Exception $e) {
+            throw($e);
+        }
     }
 
     public function modifPost (Request $request,$id ) {
 
         try {
+            // Validating fields.
+            $this->validatorService->validateFields($request->all(), $this->validatePost());
+
+            // Update post.
             $post = Post::find($id);
             $post->content = $request->content ? $request->content : $post->content;
             $post->title = $request->title ? $request->title : $post->title;
@@ -91,15 +100,22 @@ class PostService {
     }
 
     public function delPost ($id) {
-
+        try{
         // Get the post
         $post = Post::findOrFail($id);
 
         //  Delete the post, return as confirmation
-        if ($post->delete()) {
-            return new PostResource($post);
+        $post->delete();
+            return response()->json([
+                'message' => "Il y a eu une erreur lors de la suppression du post"
+            ]);
+
+        } catch(Exception $e) {
+            throw new ApiException("Il y a eu un problème lors de la suppression du post");
         }
     }
+
+
 
     //Validation fields posts
     /**

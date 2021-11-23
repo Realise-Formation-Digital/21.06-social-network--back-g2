@@ -26,6 +26,8 @@ class ValidatorService {
           $validator->errors()
         ));
       }
+
+      return (array) $fields;
     } catch (\Exception $e) {
       throw ($e);
     }

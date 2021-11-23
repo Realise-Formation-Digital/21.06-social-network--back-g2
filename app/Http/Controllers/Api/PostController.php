@@ -23,8 +23,8 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = $this->postService->getPost();
-        return new PostResource($posts);
+        $posts = $this->postService->getPosts();
+        return PostResource::collection($posts);
     }
 
     /**
@@ -47,7 +47,7 @@ class PostController extends Controller
     public function show($id)
     {
         $posts = $this->postService->findPost($id);
-        return new PostResource($posts);
+        return $posts;
     }
 
 
@@ -74,7 +74,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $posts = $this->postService->delPost($id);
-        return new PostResource($posts);
+        $post = $this->postService->delPost($id);
+        return $post;
     }
 }

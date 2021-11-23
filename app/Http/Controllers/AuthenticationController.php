@@ -6,27 +6,25 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Services\ValidatorService;
 
 class AuthenticationController extends Controller
 {
+    private $validatorService;
+
+    public function __construct(ValidatorService $validatorService) {
+        $this->validatorService = $validatorService;
+    }
+
     /**
      * This method adds new users.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-   */
-
-    /**
-     * Use this method to signin users.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-
-
     public function createAccount(Request $request)
     {
-        $attr = $request->validate([
+        $attr = $this->validatorService->validateFields($request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'pseudo' => 'required|string|unique:users,pseudo',
@@ -49,9 +47,16 @@ class AuthenticationController extends Controller
             'token' => $user->createToken('tokens')->plainTextToken
         ]);
     }
+
+    /**
+     * Use this method to signin users.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function signin(Request $request)
     {
-        $attr = $request->validate([
+        $attr = $this->validatorService->validateFields($request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string|min:6'
         ]);
@@ -72,7 +77,6 @@ class AuthenticationController extends Controller
      * @return \Illuminate\Http\Response
      *
      */
-
     public function signout()
     {
         auth()->user()->tokens()->delete();
@@ -106,31 +110,6 @@ class AuthenticationController extends Controller
             'status_code' => $status,
             'message' => $message
         ]);
-    }
-
-
-
-    //Validation fields posts
-    /**
-     *
-     * @param  bool $update
-     * @return array
-     */
-    public function validateUser($update = false)
-    {
-      // Validating fields.
-      $validatorRules = [
-      'title' => 'required|string|max:128',
-      'content' => 'required|string|max:128',
-      'img' => 'required|string|max:128',
-      'date' => 'required|date',
-      ];
-
-      // Check id when account is updated.
-      if ($update) {
-        $validatorRules['id'] = 'required|integer|digits_between:1,20';
-      }
-      return $validatorRules;
     }
 
 }
