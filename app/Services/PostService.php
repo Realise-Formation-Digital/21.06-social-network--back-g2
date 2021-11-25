@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Exceptions\ApiException;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+
 use App\Services\ValidatorService;
 use Carbon\Carbon;
 use Exception;
@@ -40,7 +41,7 @@ class PostService {
             $user = Auth::user();
 
             // Store fields in the database.
-            $upload = $request->file('upload');
+            $upload = $request->file('img');
             $date = Carbon::now()->format('Ymd-His_');
             $file_name = $date . $upload->getClientOriginalName();
 
@@ -144,7 +145,7 @@ class PostService {
       $validatorRules = [
         'title' => 'required|string|max:128',
         'content' => 'required|string|max:128',
-        'img' => 'required|string|max:128',
+        'img' => 'required|file|mimes:png,jpg,jpeg,gif|max:204800',
         'date' => 'required|date',
       ];
 
