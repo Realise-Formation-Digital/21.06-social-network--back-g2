@@ -9,6 +9,9 @@ use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\AbbonementController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\ImageUploadController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -46,7 +49,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
 $middlewareCreatePost = ['auth:sanctum', 'permission:create post'];
 Route::middleware($middlewareCreatePost)->group(function () {
-    Route::post('posts', [PostController::class, "store"]);
+    Route::get('/', function () {
+        return redirect('/posts');
+    });
+    Route::resource('posts', PostController::class);
+
+    //Route::post('posts', [PostController::class, "store"]);
 });
 
 
@@ -57,8 +65,5 @@ Route::middleware($middlewareCreatePost)->group(function () {
       'message' => 'error'
     ]);
   })->name('login');
-
-//route email
-//Route::get('/test-contact', [ContactController::class, "contactPost"]);
 
 

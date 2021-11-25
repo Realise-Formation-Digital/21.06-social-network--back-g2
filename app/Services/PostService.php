@@ -4,10 +4,11 @@ namespace App\Services;
 use App\Exceptions\ApiException;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\Post as PostResource;
 use App\Services\ValidatorService;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostService {
 
@@ -31,20 +32,34 @@ class PostService {
     public function creatPost(Request $request) {
 
         try {
+
             // Validating fields.
             $this->validatorService->validateFields($request->all(), $this->validatePost());
 
             // Get authenticated user.
             $user = Auth::user();
 
+            // Store fields in the database.
+            $upload = $request->file('upload');
+            $date = Carbon::now()->format('Ymd-His_');
+            $file_name = $date . $upload->getClientOriginalName();
+
             // Create post.
             $post = new Post;
             $post->content = $request->input('content');
             $post->title = $request->input('title');
             $post->date = $request->input('date');
-            $post->img = $request->input('img');
+            $post->img = 'file_img/' . $file_name;
             $post->user_id = $user->id;
             $post->save();
+
+            // Create temp folder if doesn't exist
+            if (!Storage::directories('file_img')) {
+                Storage::makeDirectory('file_img');
+            }
+
+            // Store the file.
+            $upload->storeAs('file_img', $file_name);
 
             // Return the new post
             return $post;

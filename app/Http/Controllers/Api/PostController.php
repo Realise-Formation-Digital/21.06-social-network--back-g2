@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\PostService;
 use App\Http\Resources\Post as PostResource;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -35,6 +36,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
+
+
         $post = $this->postService->creatPost($request);
         return new PostResource($post);
     }
